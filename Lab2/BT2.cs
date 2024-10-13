@@ -30,25 +30,12 @@ namespace Lab2
             string filePath = ofd.FileName;
             int countLines = 0;
             int countWords = 0;
+            string content = "";
             try
             {
-                StringBuilder content = new StringBuilder();
-
                 using (StreamReader sr = new StreamReader(filePath))
                 {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        if (sr.Peek() != -1)
-                        {
-                            content.Append(line + "\n");
-                        }
-                        else
-                        {
-                            content.Append(line);
-                        }
-                        countLines++;
-                    }
+                    content = sr.ReadToEnd();
                 }
                 tb_ShowText.Text = content.ToString();
             }
@@ -63,6 +50,7 @@ namespace Lab2
             // Hiển thị URL
             tb_URL.Text = filePath;
             // Hiển thị số dòng
+            countLines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None).Length;
             tb_Line.Text = countLines.ToString();
             // Hiển thị số từ
             string text = tb_ShowText.Text.Trim();
