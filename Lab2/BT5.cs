@@ -30,16 +30,6 @@ namespace Lab2
             {
                 string selectedPath = fbd.SelectedPath;
                 tb_Path.Text = selectedPath;
-                // Khởi tạo ImageList và thêm hình ảnh
-                /*imageList = new ImageList();
-
-                // Thay thế đường dẫn tới hình ảnh bạn đã tải lên
-                imageList.Images.Add("folder", Image.FromFile("C:\\path_to_your_folder_icon.png")); // Biểu tượng thư mục
-                imageList.Images.Add("file", Image.FromFile("C:\\path_to_your_file_icon.png")); // Biểu tượng tệp
-
-                listView_InforFile.SmallImageList = imageList; // Gán ImageList cho ListView
-
-                Controls.Add(listView_InforFile);*/
 
                 DirectoryInfo directoryInfo = new DirectoryInfo(selectedPath);
                 DirectoryInfo[] folderArr = directoryInfo.GetDirectories();

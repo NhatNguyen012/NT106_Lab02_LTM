@@ -28,7 +28,7 @@ namespace Lab2
             string input = tb_Input.Text;
             if (input != "")
             {
-                string inpFilePath = @"D:\0. UIT\HK3\LTMCB\3. Thuc Hanh\LAB_02\NT106_Lab2\Testcase\BT3\input.txt";
+                string inpFilePath = "input.txt";
                 UnicodeEncoding uniencoding = new UnicodeEncoding();
                 byte[] result = uniencoding.GetBytes(input);
                 using (FileStream writer = new FileStream(inpFilePath, FileMode.OpenOrCreate))
@@ -38,14 +38,15 @@ namespace Lab2
                 }
                 MessageBox.Show("Ghi file thành công.");
             }
-            /*else
+            else
             {
                 MessageBox.Show("Vui lòng nhập dữ liệu vào textbox Input");
-            }*/
+            }
         }
 
         private async void btn_Read_Click(object sender, EventArgs e)
         {
+            tb_Output.Text = "";
             ofd.Filter = "Tệp văn bản (*.txt) | *.txt";
             ofd.ShowDialog();
             string filePath = ofd.FileName;
@@ -56,7 +57,7 @@ namespace Lab2
                 using (FileStream reader = File.Open(filePath, FileMode.Open))
                 {
                     bytes = new Byte[reader.Length];
-                    await reader.ReadAsync(bytes, 0, (int)reader.Length); // Sử dụng 'reader' thay vì 'fs'
+                    await reader.ReadAsync(bytes, 0, (int)reader.Length);
                 }
 
                 string content = Encoding.UTF8.GetString(bytes);
@@ -95,7 +96,7 @@ namespace Lab2
                     output += res + Environment.NewLine;
 
                 }
-                else output += line + res + Environment.NewLine;
+                else output += line + " = " + res + Environment.NewLine;
                 content = content.Substring(index + 1);
                 index = content.IndexOf('\n');
             }
@@ -114,7 +115,7 @@ namespace Lab2
                 /*MessageBox.Show("Bugggg: " + content.IndexOf("\n"));*/
             }
 
-            string outFilePath = @"D:\0. UIT\HK3\LTMCB\3. Thuc Hanh\LAB_02\NT106_Lab2\Testcase\BT3\output.txt";
+            string outFilePath = "output.txt";
             UnicodeEncoding uniencoding = new UnicodeEncoding();
             byte[] result = uniencoding.GetBytes(output);
             using (FileStream writer = new FileStream(outFilePath, FileMode.OpenOrCreate))
@@ -126,83 +127,20 @@ namespace Lab2
 
         }
 
-        // Kiểm tra và thực hiện tính toán trong file
-        // Hàm startCalculator() sẽ trả về 0 nếu các phép tính trong file thỏa điều kiện
-        // Ngược lại, trả về indexLine
 
-        private static int startCalculator(string line, int indexLine, ref long res)
-        {
-            string[] elements = line.Split();
-            if (elements.Length == 0)
-            {
-                return indexLine;
-
-            }
-            else
-            {
-                int num1 = 0;
-                int num2 = 0;
-                bool checkNum1 = Int32.TryParse(elements[0], out num1);
-                bool checkNum2 = Int32.TryParse(elements[2], out num2);
-                char operation = elements[1][0];
-                string operations = "+ - * /";
-                if (!checkNum1)
-                {
-                    MessageBox.Show($"Phép tính số {indexLine} có các toán hạng thứ nhất không đúng định dạng hoặc quá giới hạn cho phép.\nVui lòng kiểm trả lại.");
-                    return indexLine;
-                }
-                else if (!checkNum2)
-                {
-                    MessageBox.Show($"Phép tính số {indexLine} có các toán hạng thứ hai không đúng định dạng hoặc quá giới hạn cho phép.\nVui lòng kiểm trả lại.");
-                    return indexLine;
-                }
-                else if (operations.IndexOf(operation) != -1)
-                {
-                    switch (operation)
-                    {
-                        case '+':
-                            res += num1 + num2;
-                            break;
-                        case '-':
-                            res += num1 - num2;
-                            break;
-                        case '*':
-                            res = 1;
-                            res *= num1 * num2;
-                            break;
-                        case '/':
-                            res = 1;
-                            if (num2 == 0)
-                            {
-                                MessageBox.Show($"Phép tính ở dòng {indexLine} lỗi do chia cho số 0", "Cảnh báo: Đang chia cho số 0", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                return indexLine;
-                            }
-                            res = num1 / num2;
-                            break;
-                    }
-                    return 0;
-                }
-                else
-                {
-                    MessageBox.Show($"Phép tính thứ {indexLine} không tồn tại.\nVui lòng kiểm tra lại.");
-                    return indexLine;
-                }
-            }
-        }
-
-        // Function to check if the character is an operator
+        // Hàm check các phép toán toán học
         public static bool IsOperator(char c)
         {
             return c == '+' || c == '-' || c == '*' || c == '/';
         }
 
-        // Function to check if the character is a digit
+        // Hàm check số đó có phải là số thập phân
         public static bool IsDigit(char c)
         {
             return char.IsDigit(c) || c == '.';
         }
 
-        // Function to return precedence of operators
+        // Set độ ưu tiên cho các phép tính
         public static int Precedence(char op)
         {
             if (op == '+' || op == '-') return 1;
@@ -210,7 +148,7 @@ namespace Lab2
             return 0;
         }
 
-        // Function to apply an operation to two numbers
+        // Thực hiện tính toán
         public static double ApplyOperation(char op, double b, double a)
         {
             switch (op)
@@ -225,45 +163,41 @@ namespace Lab2
             }
         }
 
-        // Function to convert infix expression to postfix
+        // đưa về cấu trúc stack
         public static string InfixToPostfix(string expr)
         {
             Stack<char> ops = new Stack<char>();
             string output = "";
-            bool lastWasOperator = true; // Track if the last character was an operator for handling negative numbers
+            bool lastWasOperator = true; 
 
             for (int i = 0; i < expr.Length; i++)
             {
                 char c = expr[i];
 
-                // If the character is a digit or part of a negative number, add it to output
                 if (IsDigit(c) || (c == '-' && lastWasOperator))
                 {
                     output += c;
                     lastWasOperator = false;
                     while (i + 1 < expr.Length && IsDigit(expr[i + 1]))
                     {
-                        output += expr[++i]; // handle multi-digit numbers
+                        output += expr[++i]; 
                     }
-                    output += " "; // Add space to separate numbers
+                    output += " "; 
                 }
-                // If the character is '(', push it to stack
                 else if (c == '(')
                 {
                     ops.Push(c);
                     lastWasOperator = true;
                 }
-                // If the character is ')', pop and output until '(' is found
                 else if (c == ')')
                 {
                     while (ops.Count > 0 && ops.Peek() != '(')
                     {
                         output += ops.Pop() + " ";
                     }
-                    ops.Pop(); // Remove '('
+                    ops.Pop();
                     lastWasOperator = false;
                 }
-                // If the character is an operator
                 else if (IsOperator(c))
                 {
                     while (ops.Count > 0 && Precedence(ops.Peek()) >= Precedence(c))
@@ -275,7 +209,6 @@ namespace Lab2
                 }
             }
 
-            // Pop all the operators from the stack
             while (ops.Count > 0)
             {
                 output += ops.Pop() + " ";
@@ -284,7 +217,7 @@ namespace Lab2
             return output.Trim();
         }
 
-        // Function to evaluate a postfix expression
+        // Tính giá trị biểu thưcs
         public static double EvaluatePostfix(string postfix)
         {
             Stack<double> values = new Stack<double>();
@@ -309,7 +242,7 @@ namespace Lab2
             return values.Pop();
         }
 
-        // Function to validate and calculate the expression
+        // Thông báo trả về của biểu thức
         public static string CalculateExpression(string expr, int indexLine)
         {
             try
