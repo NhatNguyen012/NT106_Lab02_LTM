@@ -26,23 +26,35 @@ namespace Lab2
         private async void btn_Write_Click(object sender, EventArgs e)
         {
             string input = tb_Input.Text;
-            if (input != "")
+            if (!string.IsNullOrEmpty(input))
             {
-                string inpFilePath = "input.txt";
-                UnicodeEncoding uniencoding = new UnicodeEncoding();
-                byte[] result = uniencoding.GetBytes(input);
-                using (FileStream writer = new FileStream(inpFilePath, FileMode.OpenOrCreate))
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"; // Bộ lọc loại tệp
+                saveFileDialog.Title = "Chọn vị trí lưu tệp";
+                saveFileDialog.FileName = "input.txt"; // Tên tệp mặc định
+
+                // Hiển thị hộp thoại chọn file và kiểm tra xem người dùng có bấm OK hay không
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    writer.Seek(0, SeekOrigin.End);
-                    await writer.WriteAsync(result, 0, result.Length);
+                    string filePath = saveFileDialog.FileName;
+                    UnicodeEncoding uniencoding = new UnicodeEncoding();
+                    byte[] result = uniencoding.GetBytes(input);
+
+                    using (FileStream writer = new FileStream(filePath, FileMode.OpenOrCreate))
+                    {
+                        writer.Seek(0, SeekOrigin.End);
+                        await writer.WriteAsync(result, 0, result.Length);
+                    }
                 }
-                MessageBox.Show("Ghi file thành công.");
+                MessageBox.Show("Ghi file thành công!", "Ghi file", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Vui lòng nhập dữ liệu vào textbox Input");
+                MessageBox.Show("Vui lòng nhập dữ liệu vào textbox Input", "Không có thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
             }
         }
+
 
         private async void btn_Read_Click(object sender, EventArgs e)
         {
@@ -79,6 +91,7 @@ namespace Lab2
                 MessageBox.Show("Không có dữ liệu ở textbox input\nVui lòng nhập dữ liệu.");
                 return;
             }
+
             tb_Output.Text = String.Empty;
             string content = tb_Input.Text;
             int indexLine = 0;
@@ -94,13 +107,17 @@ namespace Lab2
                 if (res == "Không thể chia hết cho 0" || res == "Lỗi biểu thức")
                 {
                     output += res + Environment.NewLine;
-
                 }
-                else output += line + " = " + res + Environment.NewLine;
+                else
+                {
+                    output += line + " = " + res + Environment.NewLine;
+                }
                 content = content.Substring(index + 1);
                 index = content.IndexOf('\n');
             }
-            content = content.Replace("\n","");
+
+            // Xử lý dòng cuối cùng nếu còn nội dung
+            content = content.Replace("\n", "");
             if (content.Length > 0)
             {
                 line = content.Replace("\r", "");
@@ -109,23 +126,84 @@ namespace Lab2
                 if (res == "Không thể chia hết cho 0" || res == "Lỗi biểu thức")
                 {
                     output += res + Environment.NewLine;
-
                 }
-                else output += line + " = " + res + Environment.NewLine;
-                /*MessageBox.Show("Bugggg: " + content.IndexOf("\n"));*/
+                else
+                {
+                    output += line + " = " + res + Environment.NewLine;
+                }
             }
 
-            string outFilePath = "output.txt";
-            UnicodeEncoding uniencoding = new UnicodeEncoding();
-            byte[] result = uniencoding.GetBytes(output);
-            using (FileStream writer = new FileStream(outFilePath, FileMode.OpenOrCreate))
+            // Hỏi người dùng có muốn chọn vị trí lưu tệp không
+            DialogResult result = MessageBox.Show(
+                "Bạn có muốn chọn vị trí lưu file không?\nNếu không thì sẽ lưu ở vị trí mặc định.",
+                "Chọn vị trí lưu",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            // Khai báo biến lưu vị trí
+            string inputFilePath;
+            string outputFilePath;
+            UnicodeEncoding unicodeEncoding = new UnicodeEncoding();
+
+            if (result == DialogResult.Yes)
             {
-                writer.Seek(0, SeekOrigin.End);
-                await writer.WriteAsync(result, 0, result.Length);
-            }
-            tb_Output.Text = output;
+                // Người dùng muốn chọn vị trí lưu tệp
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog.Title = "Chọn vị trí lưu file input";
+                saveFileDialog.FileName = "input.txt";
 
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    inputFilePath = saveFileDialog.FileName;
+                }
+                else
+                {
+                    MessageBox.Show("Lưu file input bị hủy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                saveFileDialog.Title = "Chọn vị trí lưu file output";
+                saveFileDialog.FileName = "output.txt";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    outputFilePath = saveFileDialog.FileName;
+                }
+                else
+                {
+                    MessageBox.Show("Lưu file output bị hủy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+            }
+            else
+            {
+                // Người dùng không muốn chọn vị trí -> lưu tại thư mục mặc định
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                inputFilePath = Path.Combine(baseDirectory, "input.txt");
+                outputFilePath = Path.Combine(baseDirectory, "output.txt");
+            }
+
+            // Ghi đè nội dung vào input.txt
+            byte[] inputBytes = unicodeEncoding.GetBytes(tb_Input.Text);
+            using (FileStream writer = new FileStream(inputFilePath, FileMode.Create))
+            {
+                await writer.WriteAsync(inputBytes, 0, inputBytes.Length);
+            }
+
+            // Ghi đè nội dung vào output.txt
+            byte[] outputBytes = unicodeEncoding.GetBytes(output);
+            using (FileStream writer = new FileStream(outputFilePath, FileMode.Create))
+            {
+                await writer.WriteAsync(outputBytes, 0, outputBytes.Length);
+            }
+
+            // Hiển thị kết quả trên tbOutput
+            tb_Output.Text = output;
         }
+
+
 
 
         // Hàm check các phép toán toán học
@@ -168,7 +246,7 @@ namespace Lab2
         {
             Stack<char> ops = new Stack<char>();
             string output = "";
-            bool lastWasOperator = true; 
+            bool lastWasOperator = true;
 
             for (int i = 0; i < expr.Length; i++)
             {
@@ -180,9 +258,9 @@ namespace Lab2
                     lastWasOperator = false;
                     while (i + 1 < expr.Length && IsDigit(expr[i + 1]))
                     {
-                        output += expr[++i]; 
+                        output += expr[++i];
                     }
-                    output += " "; 
+                    output += " ";
                 }
                 else if (c == '(')
                 {
@@ -253,7 +331,7 @@ namespace Lab2
                 {
                     if (!char.IsDigit(c) && !IsOperator(c) && c != '(' && c != ')' && c != '.')
                     {
-                        
+
                         return "Lỗi biểu thức";
                     }
                 }
@@ -269,6 +347,11 @@ namespace Lab2
                     return "Lỗi biểu thức";
                 return $"{ex.Message}";
             }
+        }
+
+        private void btn_Exit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
