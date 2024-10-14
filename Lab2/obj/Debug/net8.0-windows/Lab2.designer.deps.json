@@ -14,23 +14,76 @@
           "RBush": "3.2.0",
           "SixLabors.Fonts": "1.0.0",
           "System.IO.Packaging": "8.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/ClosedXML.dll": {
+            "assemblyVersion": "0.104.1.0",
+            "fileVersion": "0.104.1.0"
+          }
         }
       },
-      "ClosedXML.Parser/1.2.0": {},
+      "ClosedXML.Parser/1.2.0": {
+        "runtime": {
+          "lib/netstandard2.1/ClosedXML.Parser.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "DocumentFormat.OpenXml/3.0.1": {
         "dependencies": {
           "DocumentFormat.OpenXml.Framework": "3.0.1"
+        },
+        "runtime": {
+          "lib/net8.0/DocumentFormat.OpenXml.dll": {
+            "assemblyVersion": "3.0.1.0",
+            "fileVersion": "3.0.1.0"
+          }
         }
       },
       "DocumentFormat.OpenXml.Framework/3.0.1": {
         "dependencies": {
           "System.IO.Packaging": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/DocumentFormat.OpenXml.Framework.dll": {
+            "assemblyVersion": "3.0.1.0",
+            "fileVersion": "3.0.1.0"
+          }
         }
       },
-      "ExcelNumberFormat/1.1.0": {},
-      "RBush/3.2.0": {},
-      "SixLabors.Fonts/1.0.0": {},
-      "System.IO.Packaging/8.0.0": {}
+      "ExcelNumberFormat/1.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/ExcelNumberFormat.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
+          }
+        }
+      },
+      "RBush/3.2.0": {
+        "runtime": {
+          "lib/net6.0/RBush.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.2.0.0"
+          }
+        }
+      },
+      "SixLabors.Fonts/1.0.0": {
+        "runtime": {
+          "lib/netcoreapp3.1/SixLabors.Fonts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "System.IO.Packaging/8.0.0": {
+        "runtime": {
+          "lib/net8.0/System.IO.Packaging.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      }
     }
   },
   "libraries": {

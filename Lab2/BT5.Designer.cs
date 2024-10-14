@@ -57,8 +57,9 @@
             // 
             // btn_Back
             // 
-            btn_Back.BackColor = Color.LightSkyBlue;
+            btn_Back.BackColor = Color.LightYellow;
             btn_Back.Cursor = Cursors.Hand;
+            btn_Back.FlatStyle = FlatStyle.Flat;
             btn_Back.Location = new Point(704, 26);
             btn_Back.Name = "btn_Back";
             btn_Back.Size = new Size(84, 38);
@@ -69,8 +70,9 @@
             // 
             // btn_Browse
             // 
-            btn_Browse.BackColor = Color.LightSkyBlue;
+            btn_Browse.BackColor = Color.LightYellow;
             btn_Browse.Cursor = Cursors.Hand;
+            btn_Browse.FlatStyle = FlatStyle.Flat;
             btn_Browse.Location = new Point(587, 26);
             btn_Browse.Name = "btn_Browse";
             btn_Browse.Size = new Size(100, 38);

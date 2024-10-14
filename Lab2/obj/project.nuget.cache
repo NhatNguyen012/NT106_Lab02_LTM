@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7cEStscjPw4ifMW9np0HtSMOR5bc/ENysz4hhWfE/LsjkYns1ZsBbZKJrAcuPqtzKMeKWu/3ZHEnF/hyazesjA==",
+  "dgSpecHash": "hRPxCQZ3liI=",
   "success": true,
-  "projectFilePath": "D:\\0. UIT\\HK3\\LTMCB\\3. Thuc Hanh\\LAB_02\\NT106_Lab02_LTM\\Lab2\\Lab2.csproj",
+  "projectFilePath": "D:\\File UIT\\Môn chuyên ngành\\NT106 _ Lập trình mạng căn bản\\Các bài tập TH\\Lab 2_1\\NT106_Lab02_LTM\\Lab2\\Lab2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\closedxml\\0.104.1\\closedxml.0.104.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\closedxml.parser\\1.2.0\\closedxml.parser.1.2.0.nupkg.sha512",

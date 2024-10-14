@@ -40,6 +40,7 @@
             // 
             btn_BT1.BackColor = Color.CadetBlue;
             btn_BT1.Cursor = Cursors.Hand;
+            btn_BT1.FlatStyle = FlatStyle.Flat;
             btn_BT1.Font = new Font("Cambria", 10.8F, FontStyle.Bold);
             btn_BT1.Location = new Point(70, 82);
             btn_BT1.Name = "btn_BT1";
@@ -53,6 +54,7 @@
             // 
             btn_BT5.BackColor = Color.CadetBlue;
             btn_BT5.Cursor = Cursors.Hand;
+            btn_BT5.FlatStyle = FlatStyle.Flat;
             btn_BT5.Font = new Font("Cambria", 10.8F, FontStyle.Bold);
             btn_BT5.Location = new Point(464, 208);
             btn_BT5.Name = "btn_BT5";
@@ -66,6 +68,7 @@
             // 
             btn_BT4.BackColor = Color.CadetBlue;
             btn_BT4.Cursor = Cursors.Hand;
+            btn_BT4.FlatStyle = FlatStyle.Flat;
             btn_BT4.Font = new Font("Cambria", 10.8F, FontStyle.Bold);
             btn_BT4.Location = new Point(202, 208);
             btn_BT4.Name = "btn_BT4";
@@ -79,6 +82,7 @@
             // 
             btn_BT3.BackColor = Color.CadetBlue;
             btn_BT3.Cursor = Cursors.Hand;
+            btn_BT3.FlatStyle = FlatStyle.Flat;
             btn_BT3.Font = new Font("Cambria", 10.8F, FontStyle.Bold);
             btn_BT3.Location = new Point(585, 82);
             btn_BT3.Name = "btn_BT3";
@@ -92,6 +96,7 @@
             // 
             btn_BT2.BackColor = Color.CadetBlue;
             btn_BT2.Cursor = Cursors.Hand;
+            btn_BT2.FlatStyle = FlatStyle.Flat;
             btn_BT2.Font = new Font("Cambria", 10.8F, FontStyle.Bold);
             btn_BT2.Location = new Point(332, 82);
             btn_BT2.Name = "btn_BT2";
@@ -105,7 +110,7 @@
             // 
             btn_Exit.BackColor = Color.Snow;
             btn_Exit.Cursor = Cursors.Hand;
-            btn_Exit.Font = new Font("Cambria", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            btn_Exit.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Exit.ForeColor = SystemColors.Desktop;
             btn_Exit.Image = Properties.Resources.exit_32px;
             btn_Exit.ImageAlign = ContentAlignment.MiddleLeft;
