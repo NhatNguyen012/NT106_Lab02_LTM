@@ -43,6 +43,7 @@ namespace Lab2
                     while ((line = sr.ReadLine()) != null)
                     {
                         string[] str = line.Split(';');
+                        
                         SinhVien sv = new SinhVien
                         {
                             MSSV = str[0],

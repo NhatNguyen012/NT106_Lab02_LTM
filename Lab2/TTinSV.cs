@@ -21,17 +21,28 @@ namespace Lab2
             public string MSSV;
             public string HoTen;
             public string DienThoai;
-            public float DiemToan;
-            public float DiemVan;
+            public double DiemToan;
+            public double DiemVan;
         }
         private void btn_Input_Click(object sender, EventArgs e)
         {
+            if (!double.TryParse(tb_Toan.Text, out double diemtoan) || diemtoan < 0 || diemtoan > 10) {
+                MessageBox.Show("Điểm Toán phải nằm trong phạm vi 0 - 10!","Lỗi nhập điểm",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!double.TryParse(tb_Van.Text, out double diemvan) || diemvan < 0 || diemvan > 10)
+            {
+                MessageBox.Show("Điểm Văn phải nằm trong phạm vi 0 - 10!", "Lỗi nhập điểm", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             SinhVien sv = new SinhVien();
             sv.MSSV = tb_mssv.Text;
             sv.HoTen = tb_ten.Text;
             sv.DienThoai = tb_dt.Text;
-            sv.DiemToan = float.Parse(tb_Toan.Text);
-            sv.DiemVan = float.Parse(tb_Van.Text);
+            sv.DiemToan = diemtoan;
+            sv.DiemVan = diemvan;
 
             LuuSV(sv);
 

@@ -27,6 +27,8 @@ namespace Lab2
 
         private async void btn_Read_Click(object sender, EventArgs e)
         {
+            richTextBox1.Clear();
+
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Multiselect = true,
@@ -41,7 +43,7 @@ namespace Lab2
                     {
                         string content = await sr.ReadToEndAsync();
                         string filenames = Path.GetFileName(FileName);
-                        richTextBox1.AppendText($"Nội dung của file '{filenames}':\n {content}\n");
+                        richTextBox1.AppendText($"Nội dung của file '{filenames}':\n{content}\n");
                     }
                 }
 
