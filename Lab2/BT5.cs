@@ -31,6 +31,14 @@ namespace Lab2
                 string selectedPath = fbd.SelectedPath;
                 tb_Path.Text = selectedPath;
 
+                // Thêm icon
+                ImageList imageList = new ImageList();
+                imageList.Images.Add("folder", Properties.Resources.folder); // Biểu tượng thư mục từ Resources
+                imageList.Images.Add("file", Properties.Resources.new_document);     // Biểu tượng file từ Resources
+
+                // Bước 2: Gán ImageList cho ListView
+                listView_InforFile.LargeImageList = imageList;
+                listView_InforFile.SmallImageList = imageList;
                 DirectoryInfo directoryInfo = new DirectoryInfo(selectedPath);
                 DirectoryInfo[] folderArr = directoryInfo.GetDirectories();
                 FileInfo[] fileArr = directoryInfo.GetFiles();
@@ -69,7 +77,6 @@ namespace Lab2
         private void btn_Back_Click(object sender, EventArgs e)
         {
             string selectedPath = fbd.SelectedPath;
-            MessageBox.Show(fbd.SelectedPath.ToString());
             int index = selectedPath.LastIndexOf('\\');
             if (index != -1)
             {
@@ -82,7 +89,14 @@ namespace Lab2
                 tb_Path.Text = selectedPath;
                 fbd.SelectedPath = selectedPath;
                 listView_InforFile.Items.Clear();
+                // Thêm icon
+                ImageList imageList = new ImageList();
+                imageList.Images.Add("folder", Properties.Resources.folder); // Biểu tượng thư mục từ Resources
+                imageList.Images.Add("file", Properties.Resources.new_document);     // Biểu tượng file từ Resources
 
+                listView_InforFile.LargeImageList = imageList;
+                listView_InforFile.SmallImageList = imageList;
+                // Duyệt folder
                 DirectoryInfo directoryInfo = new DirectoryInfo(selectedPath);
                 DirectoryInfo[] folderArr = directoryInfo.GetDirectories();
                 FileInfo[] fileArr = directoryInfo.GetFiles();
@@ -95,6 +109,7 @@ namespace Lab2
                     item.SubItems.Add("");
                     listView_InforFile.Items.Add(item);
                 }
+                // Duyệt file
                 foreach (FileInfo file in fileArr)
                 {
                     ListViewItem item = new ListViewItem(file.Name.Substring(0, file.Name.LastIndexOf('.')), "file");
@@ -138,10 +153,19 @@ namespace Lab2
                     tb_Path.Text = selectedPath;
                     fbd.SelectedPath = selectedPath;
                     listView_InforFile.Items.Clear();
+                    
+                    // thêm icon
+                    ImageList imageList = new ImageList();
+                    imageList.Images.Add("folder", Properties.Resources.folder); // Biểu tượng thư mục từ Resources
+                    imageList.Images.Add("file", Properties.Resources.new_document);     // Biểu tượng file từ Resources
 
+                    listView_InforFile.LargeImageList = imageList;
+                    listView_InforFile.SmallImageList = imageList;
                     DirectoryInfo directoryInfo = new DirectoryInfo(selectedPath);
                     DirectoryInfo[] folderArr = directoryInfo.GetDirectories();
                     FileInfo[] fileArr = directoryInfo.GetFiles();
+
+                    // Duyệt folder
                     foreach (DirectoryInfo folder in folderArr)
                     {
                         ListViewItem item = new ListViewItem(folder.Name, "folder");
@@ -151,6 +175,8 @@ namespace Lab2
                         item.SubItems.Add("");
                         listView_InforFile.Items.Add(item);
                     }
+                    
+                    // Duyệt file
                     foreach (FileInfo file in fileArr)
                     {
                         ListViewItem item = new ListViewItem(file.Name.Substring(0, file.Name.LastIndexOf('.')), "file");
@@ -175,7 +201,7 @@ namespace Lab2
                 }
                 else
                 {
-                    MessageBox.Show("Thư mục không tồn tại.");
+                    MessageBox.Show("Thư mục không tồn tại.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     fbd.SelectedPath = rootPath;
                     tb_Path.Text = rootPath;
                 }
