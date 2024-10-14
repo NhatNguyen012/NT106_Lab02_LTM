@@ -37,6 +37,7 @@
             lbl_Input = new Label();
             lbl_Output = new Label();
             btn_Exit = new Button();
+            btn_Delete = new Button();
             SuspendLayout();
             // 
             // tb_Input
@@ -70,7 +71,7 @@
             btn_Write.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
             btn_Write.Image = Properties.Resources.copy_writing;
             btn_Write.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Write.Location = new Point(337, 257);
+            btn_Write.Location = new Point(337, 226);
             btn_Write.Name = "btn_Write";
             btn_Write.Padding = new Padding(10, 0, 10, 0);
             btn_Write.Size = new Size(131, 43);
@@ -151,12 +152,29 @@
             btn_Exit.UseVisualStyleBackColor = false;
             btn_Exit.Click += btn_Exit_Click;
             // 
+            // btn_Delete
+            // 
+            btn_Delete.Cursor = Cursors.Hand;
+            btn_Delete.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            btn_Delete.ForeColor = SystemColors.Desktop;
+            btn_Delete.Image = Properties.Resources.trash;
+            btn_Delete.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Delete.Location = new Point(337, 294);
+            btn_Delete.Name = "btn_Delete";
+            btn_Delete.Padding = new Padding(10, 0, 10, 0);
+            btn_Delete.Size = new Size(131, 43);
+            btn_Delete.TabIndex = 10;
+            btn_Delete.Text = "   XÓA";
+            btn_Delete.UseVisualStyleBackColor = true;
+            btn_Delete.Click += btn_Delete_Click;
+            // 
             // BT3
             // 
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.CornflowerBlue;
             ClientSize = new Size(800, 471);
+            Controls.Add(btn_Delete);
             Controls.Add(btn_Exit);
             Controls.Add(lbl_Output);
             Controls.Add(lbl_Input);
@@ -184,5 +202,6 @@
         private Label lbl_Input;
         private Label lbl_Output;
         private Button btn_Exit;
+        private Button btn_Delete;
     }
 }

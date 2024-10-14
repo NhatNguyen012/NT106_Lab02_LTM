@@ -25,12 +25,41 @@ namespace Lab2
         FileStream fs;
         private async void btn_Write_Click(object sender, EventArgs e)
         {
+            // Lưu file input.txt
             string input = tb_Input.Text;
-            if (!string.IsNullOrEmpty(input))
+            if (input != "")
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"; // Bộ lọc loại tệp
-                saveFileDialog.Title = "Chọn vị trí lưu tệp";
+                saveFileDialog.Filter = "Text files (*.txt)|*.txt"; // Bộ lọc loại tệp
+                saveFileDialog.Title = "Chọn vị trí lưu tệp input";
+                saveFileDialog.FileName = "output.txt"; // Tên tệp mặc định
+
+                // Hiển thị hộp thoại chọn file và kiểm tra xem người dùng có bấm OK hay không
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = saveFileDialog.FileName;
+                    UnicodeEncoding uniencoding = new UnicodeEncoding();
+                    byte[] result = uniencoding.GetBytes(input);
+
+                    using (FileStream writer = new FileStream(filePath, FileMode.OpenOrCreate))
+                    {
+                        writer.Seek(0, SeekOrigin.End);
+                        await writer.WriteAsync(result, 0, result.Length);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Không có dữ liệu ở textbox Input", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            // Lưu file output.txt
+            string output = tb_Output.Text;
+            if (output != "")
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Text files (*.txt)|*.txt"; // Bộ lọc loại tệp
+                saveFileDialog.Title = "Chọn vị trí lưu tệp output";
                 saveFileDialog.FileName = "input.txt"; // Tên tệp mặc định
 
                 // Hiển thị hộp thoại chọn file và kiểm tra xem người dùng có bấm OK hay không
@@ -46,12 +75,10 @@ namespace Lab2
                         await writer.WriteAsync(result, 0, result.Length);
                     }
                 }
-                MessageBox.Show("Ghi file thành công!", "Ghi file", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Vui lòng nhập dữ liệu vào textbox Input", "Không có thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                MessageBox.Show("Không có dữ liệu ở textbox Output", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -84,7 +111,7 @@ namespace Lab2
         }
 
 
-        private async void btn_Calculator_Click(object sender, EventArgs e)
+        private void btn_Calculator_Click(object sender, EventArgs e)
         {
             if (tb_Input.Text == "")
             {
@@ -133,74 +160,9 @@ namespace Lab2
                 }
             }
 
-            // Hỏi người dùng có muốn chọn vị trí lưu tệp không
-            DialogResult result = MessageBox.Show(
-                "Bạn có muốn chọn vị trí lưu file không?\nNếu không thì sẽ lưu ở vị trí mặc định.",
-                "Chọn vị trí lưu",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
-
-            // Khai báo biến lưu vị trí
-            string inputFilePath;
-            string outputFilePath;
-            UnicodeEncoding unicodeEncoding = new UnicodeEncoding();
-
-            if (result == DialogResult.Yes)
-            {
-                // Người dùng muốn chọn vị trí lưu tệp
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-                saveFileDialog.Title = "Chọn vị trí lưu file input";
-                saveFileDialog.FileName = "input.txt";
-
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    inputFilePath = saveFileDialog.FileName;
-                }
-                else
-                {
-                    MessageBox.Show("Lưu file input bị hủy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-                saveFileDialog.Title = "Chọn vị trí lưu file output";
-                saveFileDialog.FileName = "output.txt";
-
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    outputFilePath = saveFileDialog.FileName;
-                }
-                else
-                {
-                    MessageBox.Show("Lưu file output bị hủy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-            }
-            else
-            {
-                // Người dùng không muốn chọn vị trí -> lưu tại thư mục mặc định
-                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                inputFilePath = Path.Combine(baseDirectory, "input.txt");
-                outputFilePath = Path.Combine(baseDirectory, "output.txt");
-            }
-
-            // Ghi đè nội dung vào input.txt
-            byte[] inputBytes = unicodeEncoding.GetBytes(tb_Input.Text);
-            using (FileStream writer = new FileStream(inputFilePath, FileMode.Create))
-            {
-                await writer.WriteAsync(inputBytes, 0, inputBytes.Length);
-            }
-
-            // Ghi đè nội dung vào output.txt
-            byte[] outputBytes = unicodeEncoding.GetBytes(output);
-            using (FileStream writer = new FileStream(outputFilePath, FileMode.Create))
-            {
-                await writer.WriteAsync(outputBytes, 0, outputBytes.Length);
-            }
-
             // Hiển thị kết quả trên tbOutput
             tb_Output.Text = output;
+
         }
 
 
@@ -352,6 +314,12 @@ namespace Lab2
         private void btn_Exit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btn_Delete_Click(object sender, EventArgs e)
+        {
+            tb_Input.Text = "";
+            tb_Output.Text = "";
         }
     }
 }
