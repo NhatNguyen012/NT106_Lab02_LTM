@@ -24,8 +24,23 @@ namespace Lab2
             public double DiemToan;
             public double DiemVan;
         }
+
+        private static bool checkSDT(string sdt)
+        {
+            foreach (char x in sdt)
+            {
+                if( x < '0' || x > '9') return false;
+            }
+            return true;
+        }
         private void btn_Input_Click(object sender, EventArgs e)
         {
+            if (!checkSDT(tb_dt.Text))
+            {
+                MessageBox.Show($"Vui lòng nhập đúng định dạng của số điện thoại !");
+                return;
+            }
+
             if (!double.TryParse(tb_Toan.Text, out double diemtoan) || diemtoan < 0 || diemtoan > 10) {
                 MessageBox.Show("Điểm Toán phải nằm trong phạm vi 0 - 10!","Lỗi nhập điểm",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;

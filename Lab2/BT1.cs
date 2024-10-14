@@ -69,6 +69,8 @@ namespace Lab2
                                                   "Cảnh báo", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
+                        System.IO.File.WriteAllText(FileName,string.Empty);
+
                         using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
                         {
                             byte[] ct = Encoding.UTF8.GetBytes(content);
